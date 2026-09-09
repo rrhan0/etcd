@@ -226,6 +226,13 @@ func TestFeatureGateFlag(t *testing.T) {
 	}
 }
 
+func TestFeatureGateStringZeroValue(t *testing.T) {
+	var f featureGate
+	// guards against nil pointer dereference if the feature gate is not initialized
+	// before calling String() e.g. z.Interface().(Value).String() in flag.go
+	assert.Empty(t, f.String())
+}
+
 func TestFeatureGateOverride(t *testing.T) {
 	const testAlphaGate Feature = "TestAlpha"
 	const testBetaGate Feature = "TestBeta"
